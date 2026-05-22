@@ -15,7 +15,7 @@ import {
   FaSearch,
 } from "react-icons/fa";
 
-import useCart from "../hooks/useCart";
+import useCart from "../hooks/usecart";
 
 function Navbar() {
   const navigate = useNavigate();

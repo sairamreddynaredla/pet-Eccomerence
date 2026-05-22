@@ -9,11 +9,9 @@ import {
 
 import {
   useWishlist,
-} from '../context/WishlistContext'
+} from '../context/WishListContext'
 
-import {
-  useCart,
-} from '../context/CartContext'
+import useCart from '../../hooks/usecart'
 
 const WishList = () => {
 

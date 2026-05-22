@@ -5,7 +5,7 @@ import {
   FaShoppingCart,
 } from 'react-icons/fa'
 
-import { useCart } from '../../context/CartContext'
+import useCart from '../../hooks/usecart'
 
 const ProductGrid = ({ products }) => {
 

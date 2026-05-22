@@ -10,7 +10,7 @@ import CartProvider from './context/CartProvider'
 
 import {
   WishlistProvider,
-} from './context/WishlistContext'
+} from './context/WishListContext'
 
 createRoot(
   document.getElementById('root')

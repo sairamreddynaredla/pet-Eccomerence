@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ProductContext } from './ProductContext'
+import { ProductContext } from './Productcontext'
 import api from '../services/api'
 
 const ProductProvider = ({ children }) => {

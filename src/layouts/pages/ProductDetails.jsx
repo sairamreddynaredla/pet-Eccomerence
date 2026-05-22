@@ -3,10 +3,10 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { products } from "../../data/products";
 
-import ProductGallery from '../../components/productDetails/ProductGallery'
-import ProductInfo from '../../components/productDetails/ProductInfo'
-import DeliveryBox from '../../components/productDetails/DeliveryBox'
-import SimilarProducts from '../../components/productDetails/SimilarProducts'
+import ProductGallery from '../../components/productdetails/ProductGallery'
+import ProductInfo from '../../components/productdetails/ProductInfo'
+import DeliveryBox from '../../components/productdetails/DeliveryBox'
+import SimilarProducts from '../../components/productdetails/SimilarProducts'
 
 const ProductDetails = () => {
 
