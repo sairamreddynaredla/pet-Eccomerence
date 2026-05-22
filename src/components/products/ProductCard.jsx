@@ -1,162 +1,116 @@
-import { Link } from "react-router-dom"
+import { FaBalanceScale, FaTruck } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import ProductBadges from "./ProductBadges";
+import RatingStars from "./RatingStars";
+import PriceSection from "./PriceSection";
+import WishlistButton from "./WishlistButton";
+import AddToCartButton from "./AddToCartButton";
+import { useWishlist } from "../../context/usewishlist";
 
-import { Star } from "lucide-react"
-
-const ProductCard = ({ product }) => {
-
-  // GET FIRST VARIANT
-
-  const firstVariant = product.variants?.[0]
-
-  const currentPrice = firstVariant?.price || 0
-
-  const originalPrice = firstVariant?.originalPrice || 0
-
-  // DISCOUNT %
-
-  const discountPercentage =
-    originalPrice > 0
-      ? Math.round(
-          ((originalPrice - currentPrice) /
-            originalPrice) *
-            100
-        )
-      : 0
+const ProductCard = ({ product, onAddToCart, onWishlistToggle }) => {
+  const { isInWishlist } = useWishlist();
+  const firstVariant = product.variants?.[0] || {};
+  const currentPrice = firstVariant.price ?? product.price ?? 0;
+  const originalPrice = firstVariant.originalPrice ?? product.originalPrice ?? 0;
+  const soldCount = product.soldCount ?? product.sales ?? 0;
+  const isOutOfStock = product.stock <= 0;
+  const isLowStock = product.stock > 0 && product.stock < 10;
+  const cardBadge =
+    product.rating >= 4.7
+      ? "Top Rated"
+      : (product.soldCount ?? product.sales ?? 0) > 250
+      ? "Best Seller"
+      : null;
 
   return (
-
-   <Link
-  to={`/product/${product.id}`}
-  className="group w-full bg-white border border-gray-200 rounded-[28px] overflow-hidden hover:shadow-2xl transition duration-300"
->
-
-      {/* IMAGE */}
-
-      <div className="relative bg-[#fafafa] h-[260px] flex items-center justify-center overflow-hidden">
-
-        {/* BADGES */}
-
-        <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
-
-          {product.sales > 200 && (
-
-            <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-
-              Bestseller
-
-            </span>
-
-          )}
-
-          {product.stock < 10 && (
-
-            <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-
-              Low Stock
-
-            </span>
-
-          )}
-
+    <Link
+      to={`/product/${product.id}`}
+      className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-lg"
+    >
+      <div className="relative border-b border-slate-200 bg-slate-50 px-4 pt-4">
+        <div className="aspect-square w-full overflow-hidden rounded-[22px] bg-white">
+          <img
+            src={product.images?.[0] || product.image}
+            alt={product.name}
+            className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+          />
         </div>
 
-        {/* DISCOUNT */}
+        <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+          {cardBadge && (
+            <span className="rounded-full bg-slate-950 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-white">
+              {cardBadge}
+            </span>
+          )}
+          {product.fastDelivery && (
+            <span className="rounded-full bg-[#eef4ff] px-3 py-1 text-[11px] font-semibold text-[#1f3bb3]">
+              Fast shipping
+            </span>
+          )}
+          {product.isNew && (
+            <span className="rounded-full bg-[#fff5e6] px-3 py-1 text-[11px] font-semibold text-[#d97706]">
+              New
+            </span>
+          )}
+        </div>
 
-        {originalPrice > 0 && (
-
-          <div className="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-full">
-
-            {discountPercentage}% OFF
-
-          </div>
-
-        )}
-
-        {/* PRODUCT IMAGE */}
-
-        <img
-
-          src={product.image || product.images?.[0]}
-
-          alt={product.name}
-
-          className="w-full h-full object-contain p-6 group-hover:scale-105 transition duration-300"
-
+        <WishlistButton
+          isWishlisted={isInWishlist(product.id)}
+          productId={product.id}
+          onWishlistToggle={onWishlistToggle}
         />
-
       </div>
 
-      {/* CONTENT */}
-
-      <div className="p-5">
-
-        {/* BRAND */}
-
-        <p className="text-sm uppercase tracking-wide text-gray-400 font-medium mb-2">
-
+      <div className="flex flex-1 flex-col gap-3 px-4 py-5 text-sm text-slate-700">
+        <p className="text-[11px] uppercase tracking-[0.24em] text-slate-400">
           {product.brand}
-
         </p>
 
-        {/* PRODUCT NAME */}
-
-        <h3 className="text-lg font-bold text-gray-900 line-clamp-2 min-h-[56px]">
-
+        <h3 className="min-h-[3rem] text-base font-semibold leading-tight text-slate-900 transition-colors duration-300 group-hover:text-orange-600">
           {product.name}
-
         </h3>
 
-        {/* RATING */}
+        <div className="flex items-center gap-2 text-xs text-slate-500">
+          <RatingStars rating={product.rating || 0} reviewCount={product.reviews || 0} size="sm" />
+          <span className="text-slate-400">•</span>
+          <span>{soldCount.toLocaleString()} sold</span>
+        </div>
 
-        <div className="flex items-center gap-2 mt-4">
-
-          <div className="flex items-center gap-1">
-
-            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-
-            <span className="font-semibold text-sm">
-
-              {product.rating}
-
+        <div className="flex items-center gap-3">
+          <div>
+            <span className="block text-2xl font-semibold text-slate-900">
+              ${currentPrice}
             </span>
-
+            {originalPrice > currentPrice && (
+              <span className="text-sm text-slate-400 line-through">
+                ${originalPrice}
+              </span>
+            )}
           </div>
-
-          <span className="text-gray-400 text-sm">
-
-            ({product.reviews})
-
-          </span>
-
-        </div>
-
-        {/* PRICE */}
-
-        <div className="mt-5 flex items-end gap-3">
-
-          <p className="text-2xl font-bold text-black">
-
-            ${currentPrice.toFixed(2)}
-
-          </p>
-
-          {originalPrice > 0 && (
-
-            <p className="text-gray-400 line-through text-lg">
-
-              ${originalPrice.toFixed(2)}
-
-            </p>
-
+          {originalPrice > currentPrice && (
+            <span className="rounded-full bg-red-100 px-2 py-1 text-xs font-semibold text-red-600">
+              {Math.round(((originalPrice - currentPrice) / originalPrice) * 100)}% off
+            </span>
           )}
-
         </div>
 
+        <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+          {isLowStock && <span className="rounded-full bg-red-50 px-2 py-1 text-red-600">Only {product.stock} left</span>}
+          {product.deliveryDate && <span>Delivery by {product.deliveryDate}</span>}
+        </div>
+
+        <div className="mt-auto">
+          <AddToCartButton
+            productId={product.id}
+            productName={product.name}
+            isOutOfStock={isOutOfStock}
+            onAddToCart={onAddToCart}
+            quantity={1}
+          />
+        </div>
       </div>
-
     </Link>
+  );
+};
 
-  )
-}
-
-export default ProductCard
+export default ProductCard;

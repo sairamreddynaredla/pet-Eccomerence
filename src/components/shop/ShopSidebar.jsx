@@ -124,8 +124,8 @@ const ShopSidebar = ({ filters, onFilterChange, onClearFilters, products }) => {
           className="w-full accent-yellow-500 cursor-pointer"
         />
         <div className="flex justify-between text-xs text-gray-500 mt-2">
-          <span>₹{minPrice}</span>
-          <span>₹{filters.price[1]}</span>
+          <span>${minPrice}</span>
+          <span>${filters.price[1]}</span>
         </div>
       </FilterSection>
 

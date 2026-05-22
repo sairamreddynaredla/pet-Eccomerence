@@ -4,18 +4,43 @@ import {
   useLocation,
 } from 'react-router-dom'
 
-import Navbar from '../components/Navbar'
+import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
 
-import ProductFilters from '../components/products/ProductFilters'
-import ProductGrid from '../components/products/ProductGrid'
-import ProductSort from '../components/products/ProductSort'
-import ProductSearch from '../components/products/ProductSearch'
+import ProductFilters from '../../components/products/ProductFilters'
+import ProductGrid from '../../components/products/ProductGrid'
+import ProductSort from '../../components/products/ProductSort'
+import ProductSearch from '../../components/products/ProductSearch'
 
-import { products } from '../data/products'
+import { products } from '../../data/products'
+import useCart from '../../hooks/usecart'
+import { useWishlist } from '../../context/WishListContext'
 
 const Shop = () => {
 
   const location = useLocation()
+  const { addToCart } = useCart()
+  const { addToWishlist, removeFromWishlist, wishlist: wishlistItems } = useWishlist()
+
+  // WISHLIST TOGGLE HANDLER
+  const handleWishlistToggle = (productId, isAdding) => {
+    if (isAdding) {
+      const product = products.find(p => p.id === productId)
+      if (product) {
+        addToWishlist(product)
+      }
+    } else {
+      removeFromWishlist(productId)
+    }
+  }
+
+  // ADD TO CART HANDLER
+  const handleAddToCart = async (productId, quantity) => {
+    const product = products.find(p => p.id === productId)
+    if (product) {
+      addToCart({ ...product, quantity })
+    }
+  }
 
   // URL PARAMS
   const queryParams =
@@ -277,6 +302,8 @@ const Shop = () => {
             {/* GRID */}
             <ProductGrid
               products={filtered}
+              onAddToCart={handleAddToCart}
+              onWishlistToggle={handleWishlistToggle}
             />
 
           </div>

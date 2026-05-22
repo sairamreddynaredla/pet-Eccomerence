@@ -21,15 +21,27 @@ const ProductInfo = ({ product }) => {
         )
       : 0;
 
+  const productBadge =
+    product.rating >= 4.8
+      ? "Top Rated"
+      : null;
+
   return (
 
     <div className="space-y-7">
 
       {/* Brand */}
 
-      <p className="text-sm uppercase tracking-[2px] text-gray-500 font-medium">
-        {product.brand}
-      </p>
+      <div className="flex flex-wrap items-center gap-3">
+        <p className="text-sm uppercase tracking-[2px] text-gray-500 font-medium">
+          {product.brand}
+        </p>
+        {productBadge && (
+          <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white">
+            {productBadge}
+          </span>
+        )}
+      </div>
 
       {/* Product Title */}
 
@@ -39,7 +51,7 @@ const ProductInfo = ({ product }) => {
 
       {/* Ratings */}
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
 
         <div className="flex items-center gap-1">
 
@@ -57,19 +69,36 @@ const ProductInfo = ({ product }) => {
           ({product.reviews} Customer Reviews)
         </p>
 
+        <span className="h-1 w-1 rounded-full bg-slate-300" />
+
+        <p className="text-sm text-slate-500">
+          {product.category} • {product.brand}
+        </p>
+
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 text-sm text-slate-600">
+        <div className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3">
+          Ships from <span className="font-semibold text-slate-900">Pet Food Store</span>
+        </div>
+        <div className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3">
+          Sold by <span className="font-semibold text-slate-900">Pet Food Store</span>
+        </div>
       </div>
 
       {/* Pricing */}
 
-      <div className="flex items-center gap-4 flex-wrap">
+      <div className="flex flex-wrap items-center gap-4">
 
         <h2 className="text-4xl font-bold text-green-600">
           ${selectedVariant?.price || product.price}
         </h2>
 
-        <span className="text-2xl text-gray-400 line-through">
-          ${selectedVariant?.originalPrice || product.oldPrice}
-        </span>
+        {(selectedVariant?.originalPrice || product.oldPrice) > (selectedVariant?.price || product.price) && (
+          <span className="text-2xl text-gray-400 line-through">
+            ${selectedVariant?.originalPrice || product.oldPrice}
+          </span>
+        )}
 
         {discountPercentage > 0 && (
 
@@ -79,6 +108,17 @@ const ProductInfo = ({ product }) => {
 
         )}
 
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-slate-600">
+        <div className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3">
+          <p className="font-semibold text-slate-900">Delivery</p>
+          <p>{product.deliveryDate || 'Delivered in 3-5 business days'}</p>
+        </div>
+        <div className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3">
+          <p className="font-semibold text-slate-900">Return</p>
+          <p>30-day hassle-free returns</p>
+        </div>
       </div>
 
       {/* Variant Selector */}
@@ -212,53 +252,33 @@ const ProductInfo = ({ product }) => {
 
       {/* Action Buttons */}
 
-      <div className="flex gap-4 pt-4 flex-wrap">
+      <div className="space-y-4 pt-4">
+        <div className="grid gap-3 sm:grid-cols-[1fr_1fr]">
+          <button
+            onClick={() =>
+              addToCart({
+                ...product,
+                selectedVariant,
+                quantity,
+              })
+            }
+            className="inline-flex min-w-[180px] items-center justify-center rounded-xl bg-orange-500 px-10 py-4 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-600"
+          >
+            Add To Cart
+          </button>
 
-        <button
-          onClick={() =>
-            addToCart({
-              ...product,
-              selectedVariant,
-              quantity,
-            })
-          }
-          className="
-            bg-black
-            hover:bg-gray-900
-            transition-all
-            duration-300
-            text-white
-            px-10
-            py-4
-            rounded-xl
-            font-semibold
-            shadow-sm
-          "
-        >
+          <button
+            className="inline-flex min-w-[180px] items-center justify-center rounded-xl border border-slate-900 bg-white px-10 py-4 text-sm font-semibold text-slate-900 transition hover:border-transparent hover:bg-slate-900 hover:text-white"
+          >
+            Buy Now
+          </button>
+        </div>
 
-          Add To Cart
-
-        </button>
-
-        <button
-          className="
-            border
-            border-black
-            hover:bg-black
-            hover:text-white
-            transition-all
-            duration-300
-            px-10
-            py-4
-            rounded-xl
-            font-semibold
-          "
-        >
-
-          Buy Now
-
-        </button>
-
+        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600">
+          <span className="rounded-full bg-slate-100 px-4 py-2">Secure payment</span>
+          <span className="rounded-full bg-slate-100 px-4 py-2">Fast delivery</span>
+          <span className="rounded-full bg-slate-100 px-4 py-2">30-day returns</span>
+        </div>
       </div>
 
     </div>

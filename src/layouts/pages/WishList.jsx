@@ -1,4 +1,4 @@
-import Navbar from '../components/Navbar'
+import Navbar from '../../components/Navbar'
 
 import { Link } from 'react-router-dom'
 
@@ -9,14 +9,14 @@ import {
 
 import {
   useWishlist,
-} from '../context/WishListContext'
+} from '../../context/WishListContext'
 
 import useCart from '../../hooks/usecart'
 
 const WishList = () => {
 
   const {
-    wishlistItems,
+    wishlist: wishlistItems,
     removeFromWishlist,
   } = useWishlist()
 
@@ -300,8 +300,8 @@ const WishList = () => {
                       }
                       className='
                         mt-8
-                        bg-black
-                        hover:bg-[#0D2B5C]
+                        bg-orange-500
+                        hover:bg-orange-600
                         transition-all
                         text-white
                         py-4

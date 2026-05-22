@@ -7,6 +7,8 @@ import ProductGallery from '../../components/productdetails/ProductGallery'
 import ProductInfo from '../../components/productdetails/ProductInfo'
 import DeliveryBox from '../../components/productdetails/DeliveryBox'
 import SimilarProducts from '../../components/productdetails/SimilarProducts'
+import useCart from '../../hooks/usecart'
+import { useWishlist } from '../../context/usewishlist'
 
 const ProductDetails = () => {
 
@@ -26,6 +28,27 @@ const ProductDetails = () => {
   const product = products.find(
     (item) => item.id === Number(id)
   )
+
+  const { addToCart } = useCart()
+  const { addToWishlist, removeFromWishlist } = useWishlist()
+
+  const handleAddToCart = async (productId, quantity = 1) => {
+    const productToAdd = products.find((item) => item.id === Number(productId))
+    if (productToAdd) {
+      addToCart({ ...productToAdd, quantity })
+    }
+  }
+
+  const handleWishlistToggle = (productId, isAdding) => {
+    const productToUpdate = products.find((item) => item.id === Number(productId))
+    if (!productToUpdate) return
+
+    if (isAdding) {
+      addToWishlist(productToUpdate)
+    } else {
+      removeFromWishlist(productId)
+    }
+  }
 
   // PRODUCT NOT FOUND
   if (!product) {
@@ -92,7 +115,7 @@ const ProductDetails = () => {
         </div>
 
         {/* PRODUCT SECTION */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 bg-white rounded-[40px] p-6 md:p-10 shadow-sm border border-gray-100">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.95fr] gap-14 bg-white rounded-[40px] p-6 md:p-10 shadow-sm border border-gray-100">
 
           {/* LEFT */}
           <div>
@@ -110,7 +133,7 @@ const ProductDetails = () => {
           </div>
 
           {/* RIGHT */}
-          <div className="flex flex-col">
+          <div className="flex flex-col lg:sticky lg:top-28 self-start">
 
             <ProductInfo product={product} />
 
@@ -326,6 +349,8 @@ const ProductDetails = () => {
 
             <SimilarProducts
               products={similarProducts}
+              onAddToCart={handleAddToCart}
+              onWishlistToggle={handleWishlistToggle}
             />
 
           </div>

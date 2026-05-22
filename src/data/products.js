@@ -1,3 +1,7 @@
+import purinaProductImage from '../assets/brands/purina.jpeg'
+import orijenProductImage from '../assets/brands/orijen.jpeg'
+import kennelKitchenProductImage from '../assets/brands/kennel-kitchen.jpeg'
+
 export const products = [
 
   // ================= DOG PRODUCTS =================
@@ -2092,6 +2096,66 @@ export const products = [
   description: 'Crunchy chew sticks for healthy teeth.',
   variants: [
     { weight: '150g', price: 1.79, originalPrice: 2.49 },
+  ],
+},
+
+{
+  id: 101,
+  name: 'Purina Pro Plan Chicken & Rice',
+  brand: 'Purina',
+  category: 'dog-food',
+  subCategory: 'dry-food',
+  pet: 'Dog',
+  flavor: 'Chicken & Rice',
+  lifeStage: 'Adult',
+  rating: 4.7,
+  reviews: 156,
+  stock: 22,
+  image: purinaProductImage,
+  description: 'Purina Pro Plan provides advanced nutrition with real chicken as the first ingredient for optimal health and vitality in adult dogs.',
+  variants: [
+    { weight: '1.5kg', price: 8.99, originalPrice: 11.99 },
+    { weight: '7kg', price: 32.99, originalPrice: 39.99 },
+  ],
+},
+
+{
+  id: 102,
+  name: 'Orijen Grain Free Dog Food',
+  brand: 'Orijen',
+  category: 'dog-food',
+  subCategory: 'grain-free',
+  pet: 'Dog',
+  flavor: 'Beef & Fish',
+  lifeStage: 'Adult',
+  rating: 4.9,
+  reviews: 128,
+  stock: 16,
+  image: orijenProductImage,
+  description: 'Orijen Grain Free is rich in fresh meat, making it biologically appropriate for carnivorous dogs with high protein content.',
+  variants: [
+    { weight: '2kg', price: 19.99, originalPrice: 24.99 },
+    { weight: '11.4kg', price: 89.99, originalPrice: 109.99 },
+  ],
+},
+
+{
+  id: 103,
+  name: 'Kennel Kitchen Natural Dog Food',
+  brand: 'Kennel Kitchen',
+  category: 'dog-food',
+  subCategory: 'dry-food',
+  pet: 'Dog',
+  flavor: 'Lamb & Vegetable',
+  lifeStage: 'Adult',
+  rating: 4.6,
+  reviews: 89,
+  stock: 18,
+  image: kennelKitchenProductImage,
+  description: 'Kennel Kitchen offers premium natural dog food with carefully selected ingredients for complete nutrition and digestive health.',
+  variants: [
+    { weight: '1kg', price: 6.99, originalPrice: 8.99 },
+    { weight: '5kg', price: 28.99, originalPrice: 34.99 },
   ],
 },
 ];

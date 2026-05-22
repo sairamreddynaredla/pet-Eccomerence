@@ -1,63 +1,158 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react";
+
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 const ProductGallery = ({ product }) => {
-  const images = product.images && product.images.length > 0
-    ? product.images
-    : [product.image];
-
+  const images = product.images && product.images.length > 0 ? product.images : [product.image];
   const [activeIndex, setActiveIndex] = useState(0);
+  const [zoomActive, setZoomActive] = useState(false);
+  const [pointer, setPointer] = useState({ x: 0.5, y: 0.5 });
+  const imageContainerRef = useRef(null);
 
-  const mainImage = images[activeIndex] || product.image;
+  const activeImage = images[activeIndex] || product.image;
+  const zoomScale = 2.5;
+
+  useEffect(() => {
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, [images]);
+
+  useEffect(() => {
+    [activeIndex - 1, activeIndex + 1].forEach((index) => {
+      if (images[index]) {
+        const img = new Image();
+        img.src = images[index];
+      }
+    });
+  }, [activeIndex, images]);
+
+  const handlePointerMove = (event) => {
+    const rect = imageContainerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const clientX = event.clientX ?? event.touches?.[0]?.clientX;
+    const clientY = event.clientY ?? event.touches?.[0]?.clientY;
+    if (clientX == null || clientY == null) return;
+
+    const x = clamp((clientX - rect.left) / rect.width, 0, 1);
+    const y = clamp((clientY - rect.top) / rect.height, 0, 1);
+
+    setPointer({ x, y });
+  };
+
+  const activateZoom = () => setZoomActive(true);
+  const deactivateZoom = () => setZoomActive(false);
+
+  const handleThumbnailHover = (index) => {
+    setActiveIndex(index);
+    setZoomActive(false);
+  };
+
+  const hasMultipleImages = images.length > 1;
+  const zoomStyle = {
+    transform: zoomActive ? `scale(${zoomScale})` : "scale(1)",
+    transformOrigin: `${pointer.x * 100}% ${pointer.y * 100}%`,
+  };
+
+  const goPrevious = () => {
+    setActiveIndex((current) => (current === 0 ? images.length - 1 : current - 1));
+    setZoomActive(false);
+  };
+
+  const goNext = () => {
+    setActiveIndex((current) => (current === images.length - 1 ? 0 : current + 1));
+    setZoomActive(false);
+  };
 
   return (
     <div className="w-full">
-
-      <div className="bg-white border rounded-3xl p-8 shadow-sm">
-
-        <img
-          src={mainImage}
-          alt={product.name}
-          className="w-full h-[500px] object-contain transition-all duration-300"
-        />
-
-      </div>
-
-      <div className="flex gap-4 mt-5 flex-wrap">
-
-        {images.map((img, index) => (
-
-          <button
-            key={index}
-            onClick={() => setActiveIndex(index)}
-            className={`
-              w-24 h-24 border-2 rounded-2xl p-2 cursor-pointer
-              transition-all duration-200 overflow-hidden bg-white focus:outline-none
-
-              ${activeIndex === index
-                ? "border-orange-500 ring-2 ring-orange-500/20 scale-105 shadow-sm"
-                : "border-gray-200 hover:border-gray-300"
+      <div className="grid gap-8">
+        <div className="relative overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-sm">
+          <div
+            ref={imageContainerRef}
+            className="relative aspect-square w-full overflow-hidden bg-white"
+            onMouseMove={handlePointerMove}
+            onMouseEnter={activateZoom}
+            onMouseLeave={deactivateZoom}
+            onTouchStart={(event) => {
+              if (event.touches[0]) {
+                handlePointerMove(event.touches[0]);
               }
-            `}
-            aria-label={`View product image ${index + 1}`}
+              activateZoom();
+            }}
+            onTouchMove={(event) => {
+              if (event.touches[0]) {
+                handlePointerMove(event.touches[0]);
+              }
+            }}
+            onTouchEnd={deactivateZoom}
           >
-
             <img
-              src={img}
-              alt={`thumbnail ${index + 1}`}
-              className="w-full h-full object-contain"
+              src={activeImage || product.image}
+              alt={product.name}
+              style={zoomStyle}
+              className="absolute inset-0 h-full w-full object-contain transition-transform duration-200"
             />
 
-          </button>
+            {zoomActive && (
+              <div
+                className="pointer-events-none absolute z-10 h-24 w-24 rounded-lg border border-slate-300 bg-white/10 shadow-lg"
+                style={{
+                  left: `${pointer.x * 100}%`,
+                  top: `${pointer.y * 100}%`,
+                  transform: "translate(-50%, -50%)",
+                }}
+              />
+            )}
 
-        ))}
+            {hasMultipleImages && (
+              <>
+                <button
+                  type="button"
+                  onClick={goPrevious}
+                  aria-label="Previous image"
+                  className="absolute left-4 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow-sm transition hover:bg-white"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  onClick={goNext}
+                  aria-label="Next image"
+                  className="absolute right-4 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow-sm transition hover:bg-white"
+                >
+                  ›
+                </button>
+              </>
+            )}
+          </div>
 
+          <div className="mt-4 flex items-center gap-3 overflow-x-auto pb-2 hide-scrollbar px-4">
+            {images.map((img, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                onMouseEnter={() => handleThumbnailHover(index)}
+                onFocus={() => handleThumbnailHover(index)}
+                className={`h-16 w-16 shrink-0 overflow-hidden rounded-2xl border transition duration-150 focus:outline-none ${
+                  activeIndex === index
+                    ? "border-gray-900 bg-slate-100"
+                    : "border-gray-300 hover:border-gray-700 bg-white"
+                }`}
+                aria-label={`Preview image ${index + 1}`}
+                aria-pressed={activeIndex === index}
+              >
+                <img src={img} alt={`Thumbnail ${index + 1}`} className="h-full w-full object-contain" />
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
-
-      <div className="mt-6 border rounded-2xl p-5 bg-white hidden">
-      </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default ProductGallery
+export default ProductGallery;

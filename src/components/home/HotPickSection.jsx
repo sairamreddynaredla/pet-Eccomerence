@@ -275,7 +275,7 @@ const HotPickSection = () => {
 
                   {/* BUTTON */}
 
-                  <button className="w-full bg-[#16325B] hover:bg-[#0d2240] text-white py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 transition">
+                  <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 transition">
 
                     <ShoppingCart size={18} />
 

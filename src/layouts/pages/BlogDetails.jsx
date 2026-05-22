@@ -166,7 +166,7 @@ const BlogDetails = () => {
               <div className="flex items-center justify-between">
 
                 <p className="text-3xl font-bold text-orange-500">
-                  ₹{products[0]?.price}
+                  ${products[0]?.price}
                 </p>
 
                 <button className="bg-black hover:bg-gray-900 text-white px-6 py-3 rounded-xl font-semibold transition">

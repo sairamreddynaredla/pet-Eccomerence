@@ -18,6 +18,10 @@ import Cart from "./layouts/pages/Cart";
 
 import BestSellers from "./layouts/pages/BestSellers";
 
+import Shop from "./layouts/pages/Shop";
+
+import Brands from "./layouts/pages/Brands";
+
 import Blogs from "./layouts/pages/Blogs";
 
 import BlogDetails from "./layouts/pages/BlogDetails";
@@ -27,6 +31,8 @@ import BreedDetails from "./layouts/pages/BreedDetails";
 import BreedCategory from "./layouts/pages/BreedCategory";
 
 import OrderSuccess from "./layouts/pages/OrderSuccess";
+
+import WishList from "./layouts/pages/WishList";
 
 import Checkout from "./layouts/pages/CheckOut";
 const App = () => {
@@ -71,6 +77,30 @@ const App = () => {
         <Route
           path="/cart"
           element={<Cart />}
+        />
+
+        {/* WISHLIST */}
+        <Route
+          path="/wishlist"
+          element={<WishList />}
+        />
+
+        {/* SHOP */}
+        <Route
+          path="/shop"
+          element={<Shop />}
+        />
+
+        {/* PETS */}
+        <Route
+          path="/pets"
+          element={<Shop />}
+        />
+
+        {/* BRANDS */}
+        <Route
+          path="/brands"
+          element={<Brands />}
         />
 
         {/* BEST SELLERS */}

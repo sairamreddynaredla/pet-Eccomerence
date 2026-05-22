@@ -41,115 +41,70 @@ const FeaturedProducts = () => {
         {featuredProducts.map((product) => {
 
           const firstVariant =
-            product.variants?.[0]
+            product.variants?.[0] ?? product
 
           return (
 
             <Link
               to={`/product/${product.id}`}
               key={product.id}
-              className='group bg-[#f8f8f8] rounded-[35px] overflow-hidden hover:shadow-2xl transition duration-500'
+              className='group flex h-full flex-col overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm transition duration-300 hover:border-slate-300 hover:shadow-lg'
             >
 
-              {/* IMAGE */}
-              <div className='relative overflow-hidden h-[280px]'>
-
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className='w-full h-full object-cover group-hover:scale-110 transition duration-700'
-                />
-
-                {/* CATEGORY */}
-                <div className='absolute top-4 left-4 bg-white px-4 py-2 rounded-full text-sm font-semibold shadow'>
-
-                  {product.pet}
-
+              <div className='relative bg-slate-50 p-4'>
+                <div className='aspect-square w-full overflow-hidden rounded-[20px] bg-white'>
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className='h-full w-full object-contain transition-transform duration-300 group-hover:scale-105'
+                  />
                 </div>
 
-                {/* DISCOUNT */}
-                <div className='absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold'>
+                {product.pet && (
+                  <div className='absolute left-4 top-4 rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm'>
+                    {product.pet}
+                  </div>
+                )}
 
-                  SALE
-
-                </div>
-
+                {firstVariant?.originalPrice > firstVariant?.price && (
+                  <div className='absolute right-4 top-4 rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-white'>
+                    Sale
+                  </div>
+                )}
               </div>
 
-              {/* CONTENT */}
-              <div className='p-6'>
-
-                {/* BRAND */}
-                <p className='text-gray-400 text-sm mb-2'>
+              <div className='flex flex-1 flex-col gap-3 p-5 text-sm text-slate-700'>
+                <p className='text-[11px] uppercase tracking-[0.24em] text-slate-400'>
                   {product.brand}
                 </p>
 
-                {/* NAME */}
-                <h3 className='text-2xl font-bold mb-3 line-clamp-2'>
-
+                <h3 className='text-lg font-semibold text-slate-900 line-clamp-2'>
                   {product.name}
-
                 </h3>
 
-                {/* DESCRIPTION */}
-                <p className='text-gray-500 text-sm mb-5 line-clamp-2'>
-
+                <p className='text-sm text-slate-500 line-clamp-2'>
                   {product.description}
-
                 </p>
 
-                {/* DETAILS */}
-                <div className='space-y-2 text-sm text-gray-500 mb-6'>
-
-                  <p>
-                    Flavor:
-                    {' '}
-                    {product.flavor}
-                  </p>
-
-                  <p>
-                    Weight:
-                    {' '}
-                    {firstVariant?.weight}
-                  </p>
-
-                </div>
-
-                {/* PRICE */}
-                <div className='flex items-center justify-between mb-6'>
-
+                <div className='flex items-center justify-between gap-4'>
                   <div>
-
-                    <div className='text-3xl font-bold text-[#0B2B6A]'>
-
+                    <p className='text-2xl font-semibold text-slate-900'>
                       ${firstVariant?.price}
-
-                    </div>
-
-                    <div className='text-gray-400 line-through text-sm'>
-
-                      ₹{firstVariant?.originalPrice}
-
-                    </div>
-
+                    </p>
+                    {firstVariant?.originalPrice > firstVariant?.price && (
+                      <p className='text-sm text-slate-400 line-through'>
+                        ${firstVariant?.originalPrice}
+                      </p>
+                    )}
                   </div>
-
-                  {/* RATING */}
-                  <div className='text-yellow-500 font-bold'>
-
-                    ⭐ {product.rating}
-
+                  <div className='text-yellow-500 font-semibold'>
+                    ★ {product.rating}
                   </div>
-
                 </div>
 
-                {/* BUTTON */}
-                <button className='w-full bg-orange-500 hover:bg-orange-600 transition text-white py-4 rounded-full text-lg font-semibold'>
-
+                <button className='mt-auto inline-flex h-11 w-full items-center justify-center rounded-lg bg-orange-500 text-sm font-semibold text-white transition hover:bg-orange-600'>
                   View Product
-
                 </button>
-
               </div>
 
             </Link>

@@ -12,230 +12,86 @@ const ProductGrid = ({ products }) => {
   const { addToCart } = useCart()
 
   return (
-
     <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4'>
-
       {products.map((product) => {
-
-        const activeVariant =
-          product?.variants?.[0]
-
-        const discountPercentage =
-          Math.round(
-
-            (
-              (
-                activeVariant.originalPrice -
-                activeVariant.price
-              )
-              /
-              activeVariant.originalPrice
-            ) * 100
-          )
+        const activeVariant = product?.variants?.[0] ?? product;
+        const discountPercentage = activeVariant?.originalPrice
+          ? Math.round(((activeVariant.originalPrice - activeVariant.price) / activeVariant.originalPrice) * 100)
+          : 0;
 
         return (
-
           <div
             key={product.id}
-            className='
-              group
-              bg-white
-              rounded-[22px]
-              overflow-hidden
-              border
-              border-gray-200
-              hover:shadow-xl
-              transition-all
-              duration-300
-              flex
-              flex-col
-            '
+            className='group flex flex-col overflow-hidden rounded-[24px] border border-gray-200 bg-white transition-all duration-300 hover:border-gray-300 hover:shadow-xl'
           >
-
-            {/* IMAGE */}
-
-            <div className='relative bg-[#fafafa] h-[220px] overflow-hidden p-4'>
-
-              {/* DISCOUNT */}
-
-              <div className='absolute top-3 left-3 z-10 bg-red-500 text-white px-2 py-1 rounded-full text-[10px] font-bold'>
-
-                {discountPercentage}% OFF
-
-              </div>
-
-              {/* WISHLIST */}
-
+            <div className='relative bg-slate-50 overflow-hidden p-4'>
+              {discountPercentage > 0 && (
+                <div className='absolute left-4 top-4 z-10 rounded-full bg-red-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white'>
+                  {discountPercentage}% OFF
+                </div>
+              )}
               <button
-                className='
-                  absolute
-                  top-3
-                  right-3
-                  z-10
-                  bg-white
-                  w-8
-                  h-8
-                  rounded-full
-                  flex
-                  items-center
-                  justify-center
-                  shadow-sm
-                  hover:bg-red-500
-                  hover:text-white
-                  transition-all
-                '
+                className='absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-600 shadow-sm transition hover:bg-orange-500 hover:text-white'
+                aria-label='Add to wishlist'
               >
-
                 <FaHeart size={12} />
-
               </button>
-
-              {/* IMAGE */}
-
-              <Link
-                to={`/product/${product.id}`}
-                className='block w-full h-full'
-              >
-
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className='
-                    w-full
-                    h-full
-                    object-contain
-                    group-hover:scale-105
-                    transition-transform
-                    duration-300
-                  '
-                />
-
+              <Link to={`/product/${product.id}`} className='block'>
+                <div className='aspect-square w-full overflow-hidden rounded-[20px] bg-white'>
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className='h-full w-full object-contain transition-transform duration-300 group-hover:scale-105'
+                  />
+                </div>
               </Link>
-
             </div>
 
-            {/* CONTENT */}
-
-            <div className='flex flex-col flex-1 p-4'>
-
-              {/* BRAND */}
-
-              <p className='text-[11px] uppercase tracking-wide text-gray-400 mb-1'>
-
+            <div className='flex flex-1 flex-col gap-3 p-4 text-sm text-slate-700'>
+              <p className='text-[10px] uppercase tracking-[0.2em] text-slate-400'>
                 {product.brand}
-
               </p>
-
-              {/* TITLE */}
-
-              <Link
-                to={`/product/${product.id}`}
-                className='block'
-              >
-
-                <h2
-                  className='
-                    text-sm
-                    font-semibold
-                    text-black
-                    leading-6
-                    line-clamp-2
-                    min-h-[48px]
-                    hover:text-red-500
-                    transition-all
-                  '
-                >
-
+              <Link to={`/product/${product.id}`} className='block'>
+                <h2 className='line-clamp-2 min-h-[48px] text-sm font-semibold leading-6 text-slate-900 transition-colors duration-300 group-hover:text-orange-600'>
                   {product.name}
-
                 </h2>
-
               </Link>
-
-              {/* RATING */}
-
-              <div className='flex items-center gap-2 mt-2'>
-
-                <span className='text-yellow-500 text-sm'>
-                  ★
-                </span>
-
-                <span className='font-medium text-sm'>
-
-                  {product.rating}
-
-                </span>
-
-                <span className='text-gray-400 text-xs'>
-
-                  ({product.reviews})
-
-                </span>
-
+              <div className='flex items-center gap-2 text-xs text-slate-500'>
+                <span className='text-yellow-500'>★</span>
+                <span className='font-semibold text-slate-900'>{product.rating ?? 0}</span>
+                <span className='text-gray-400'>({product.reviews ?? 0})</span>
               </div>
-
-              {/* PRICE */}
-
-              <div className='flex items-center gap-2 mt-3 flex-wrap'>
-
-                <h3 className='text-lg font-bold text-black'>
-
-                  ${activeVariant.price}
-
-                </h3>
-
-                <span className='text-gray-400 line-through text-sm'>
-
-                  ${activeVariant.originalPrice}
-
-                </span>
-
+              <div className='flex items-center gap-3'>
+                <p className='text-lg font-bold text-slate-900'>${activeVariant.price}</p>
+                {activeVariant.originalPrice > activeVariant.price && (
+                  <span className='text-sm text-slate-400 line-through'>${activeVariant.originalPrice}</span>
+                )}
               </div>
-
-              {/* BUTTON */}
-
+              <div className='flex flex-wrap items-center gap-2 text-xs text-slate-500'>
+                {discountPercentage > 0 && (
+                  <span className='rounded-full bg-red-50 px-2 py-1 text-red-600'>Save {discountPercentage}%</span>
+                )}
+                {product.fastDelivery && <span className='rounded-full bg-slate-100 px-2 py-1'>Fast delivery</span>}
+              </div>
               <button
                 onClick={() =>
                   addToCart({
                     ...product,
-                    selectedVariant:
-                      activeVariant,
+                    selectedVariant: activeVariant,
                     quantity: 1,
                   })
                 }
-                className='
-                  mt-4
-                  w-full
-                  bg-black
-                  hover:bg-[#0D2B5C]
-                  text-white
-                  py-2.5
-                  rounded-xl
-                  text-sm
-                  font-semibold
-                  flex
-                  items-center
-                  justify-center
-                  gap-2
-                  transition-all
-                '
+                className='mt-auto inline-flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600'
               >
-
                 <FaShoppingCart size={13} />
-
-                Add
-
+                Add to cart
               </button>
-
             </div>
-
           </div>
-
-        )
+        );
       })}
-
     </div>
-  )
+  );
 }
 
 export default ProductGrid

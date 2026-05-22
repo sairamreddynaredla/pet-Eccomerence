@@ -1,9 +1,9 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination, Autoplay } from 'swiper/modules'
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const banners = [
   {
@@ -65,12 +65,11 @@ const banners = [
     bg: "bg-[#ffe4ec]",
     button: "Shop Small Pets",
   },
-]
+];
 
 const HeroBanner = () => {
   return (
     <div className="px-4 md:px-6 py-6">
-
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         slidesPerView={1}
@@ -86,34 +85,22 @@ const HeroBanner = () => {
       >
         {banners.map((banner) => (
           <SwiperSlide key={banner.id}>
-
-            <div
-              className={`${banner.bg} rounded-[35px] overflow-hidden`}
-            >
+            <div className={`${banner.bg} rounded-[35px] overflow-hidden`}>
               <div className="grid grid-cols-1 md:grid-cols-2 items-center min-h-[500px]">
-
-                {/* LEFT CONTENT */}
                 <div className="p-10 md:p-16">
-
                   <span className="bg-red-600 text-white px-5 py-2 rounded-full text-sm font-semibold">
                     SALE OFFER
                   </span>
-
                   <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-6 text-gray-900">
                     {banner.title}
                   </h1>
-
                   <p className="text-lg text-gray-700 mt-5">
                     {banner.subtitle}
                   </p>
-
                   <button className="mt-8 bg-red-600 hover:bg-red-700 transition-all text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg">
                     {banner.button}
                   </button>
-
                 </div>
-
-                {/* RIGHT IMAGE */}
                 <div className="h-full">
                   <img
                     src={banner.image}
@@ -121,16 +108,13 @@ const HeroBanner = () => {
                     className="w-full h-[500px] object-cover"
                   />
                 </div>
-
               </div>
             </div>
-
           </SwiperSlide>
         ))}
       </Swiper>
-
     </div>
-  )
-}
+  );
+};
 
-export default HeroBanner
+export default HeroBanner;
