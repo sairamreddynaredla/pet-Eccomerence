@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import ezstoreLogo from "../assets/logo/ezstore-logo.png";
 
 const socialLinks = [
-  { href: "https://facebook.com", icon: "https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png", label: "Facebook" },
-  { href: "https://twitter.com", icon: "https://img.icons8.com/ios-filled/50/ffffff/twitter.png", label: "Twitter" },
-  { href: "https://instagram.com", icon: "https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png", label: "Instagram" },
-  { href: "https://youtube.com", icon: "https://img.icons8.com/ios-filled/50/ffffff/youtube-play.png", label: "YouTube" },
+  { href: "https://facebook.com", icon: "https://img.icons8.com/ios-filled/50/1877F2/facebook-new.png", label: "Facebook" },
+  { href: "https://twitter.com", icon: "https://img.icons8.com/ios-filled/50/1DA1F2/twitter.png", label: "Twitter" },
+  { href: "https://instagram.com", icon: "https://img.icons8.com/ios-filled/50/E1306C/instagram-new.png", label: "Instagram" },
+  { href: "https://youtube.com", icon: "https://img.icons8.com/ios-filled/50/FF0000/youtube-play.png", label: "YouTube" },
 ];
 
 const footerLinks = {
