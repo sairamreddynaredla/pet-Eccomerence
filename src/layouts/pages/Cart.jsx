@@ -59,8 +59,7 @@ const Cart = () => {
               {/* LEFT SIDE */}
               <div className='lg:col-span-2 space-y-6'>
 
-                {cartItems.map((item) => (
-
+                {cartItems.filter(item => item && item.selectedVariant).map((item) => (
                   <div
                     key={`${item.id}-${item.selectedVariant.weight}`}
                     className='bg-white rounded-[35px] p-6 flex flex-col md:flex-row gap-6 shadow-sm'
@@ -98,11 +97,8 @@ const Cart = () => {
                       <div className='space-y-2 text-gray-500 mb-6'>
 
                         <p>
-
-                          Weight:
-                          {' '}
-                          {item.selectedVariant.weight}
-
+                          Weight:{' '}
+                          {item.selectedVariant?.weight ?? 'N/A'}
                         </p>
 
                         <p>
@@ -122,7 +118,7 @@ const Cart = () => {
                           onClick={() =>
                             decreaseQuantity(
                               item.id,
-                              item.selectedVariant.weight
+                              item.selectedVariant?.weight
                             )
                           }
                           className='w-12 h-12 rounded-full bg-gray-100 text-2xl hover:bg-gray-200 transition-all'
@@ -140,7 +136,7 @@ const Cart = () => {
                           onClick={() =>
                             increaseQuantity(
                               item.id,
-                              item.selectedVariant.weight
+                              item.selectedVariant?.weight
                             )
                           }
                           className='w-12 h-12 rounded-full bg-gray-100 text-2xl hover:bg-gray-200 transition-all'
@@ -155,27 +151,22 @@ const Cart = () => {
                         onClick={() =>
                           removeFromCart(
                             item.id,
-                            item.selectedVariant.weight
+                            item.selectedVariant?.weight
                           )
                         }
                         className='text-red-500 hover:text-red-700 transition-all font-semibold'
                       >
-
                         Remove Item
-
                       </button>
 
                     </div>
 
                     {/* PRICE */}
                     <div className='text-4xl font-bold text-[#0B2B6A]'>
-
                       $
                       {(
-                        item.selectedVariant.price *
-                        item.quantity
+                        (item.selectedVariant?.price ?? 0) * item.quantity
                       ).toFixed(2)}
-
                     </div>
 
                   </div>

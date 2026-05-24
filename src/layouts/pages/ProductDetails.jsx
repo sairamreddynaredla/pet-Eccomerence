@@ -1,7 +1,8 @@
 import Navbar from '../../components/Navbar'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { products } from "../../data/products";
+
 
 import ProductGallery from '../../components/productdetails/ProductGallery'
 import ProductInfo from '../../components/productdetails/ProductInfo'
@@ -9,8 +10,11 @@ import DeliveryBox from '../../components/productdetails/DeliveryBox'
 import SimilarProducts from '../../components/productdetails/SimilarProducts'
 import useCart from '../../hooks/usecart'
 import { useWishlist } from '../../context/usewishlist'
+import BuyNowButton from '../../components/BuyNowButton'
 
 const ProductDetails = () => {
+
+  const navigate = useNavigate();
 
   const { id } = useParams()
 
@@ -37,6 +41,12 @@ const ProductDetails = () => {
     if (productToAdd) {
       addToCart({ ...productToAdd, quantity })
     }
+  }
+
+  // BUY NOW HANDLER
+  const handleBuyNow = async () => {
+    await handleAddToCart(product.id, 1);
+    navigate('/checkout');
   }
 
   const handleWishlistToggle = (productId, isAdding) => {
@@ -134,9 +144,7 @@ const ProductDetails = () => {
 
           {/* RIGHT */}
           <div className="flex flex-col lg:sticky lg:top-28 self-start">
-
-            <ProductInfo product={product} />
-
+            <ProductInfo product={product} handleBuyNow={handleBuyNow} />
           </div>
 
         </div>

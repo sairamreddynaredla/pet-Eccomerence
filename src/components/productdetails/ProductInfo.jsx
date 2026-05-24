@@ -1,7 +1,8 @@
 import { useState } from "react";
 import useCart from "../../hooks/usecart";
+import BuyNowButton from "../BuyNowButton";
 
-const ProductInfo = ({ product }) => {
+const ProductInfo = ({ product, handleBuyNow }) => {
 
   const { addToCart } = useCart();
 
@@ -262,16 +263,16 @@ const ProductInfo = ({ product }) => {
                 quantity,
               })
             }
-            className="inline-flex min-w-[180px] items-center justify-center rounded-xl bg-orange-500 px-10 py-4 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-600"
+            className="inline-flex min-w-45 items-center justify-center rounded-xl bg-orange-500 px-10 py-4 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-600"
           >
             Add To Cart
           </button>
-
-          <button
-            className="inline-flex min-w-[180px] items-center justify-center rounded-xl border border-slate-900 bg-white px-10 py-4 text-sm font-semibold text-slate-900 transition hover:border-transparent hover:bg-slate-900 hover:text-white"
+          <BuyNowButton
+            onClick={handleBuyNow}
+            disabled={product.stock === 0}
           >
-            Buy Now
-          </button>
+            {product.stock === 0 ? 'Out of Stock' : 'Buy Now'}
+          </BuyNowButton>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600">

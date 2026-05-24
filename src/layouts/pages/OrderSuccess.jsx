@@ -18,7 +18,7 @@ const OrderSuccess = () => {
         {/* Description */}
         <p className="text-gray-500 text-lg leading-8 mb-10">
           Thank you for shopping with{" "}
-          <span className="text-red-500 font-semibold">Foneshack</span>.
+          <span className="text-red-500 font-semibold">EZStore</span>.
           Your premium gadgets are being prepared for dispatch.
         </p>
 

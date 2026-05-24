@@ -191,58 +191,38 @@ const Checkout = () => {
 
               <div className='space-y-6 mb-8'>
 
-                {cartItems.map((item, index) => (
-
+                {cartItems.filter(item => item && item.selectedVariant).map((item, index) => (
                   <div
                     key={index}
                     className='flex items-center gap-4'
                   >
-
                     {/* IMAGE */}
                     <div className='w-20 h-20 bg-gray-100 rounded-2xl p-2'>
-
                       <img
                         src={item.image}
                         alt={item.name}
                         className='w-full h-full object-contain'
                       />
-
                     </div>
-
                     {/* CONTENT */}
                     <div className='flex-1'>
-
                       <h3 className='font-semibold line-clamp-2'>
-
                         {item.name}
-
                       </h3>
-
                       <p className='text-sm text-gray-500 mt-1'>
-
-                        {item.selectedVariant.weight}
+                        {item.selectedVariant?.weight ?? 'N/A'}
                         {' • '}
-                        Qty:
-                        {' '}
-                        {item.quantity}
-
+                        Qty: {item.quantity}
                       </p>
-
                     </div>
-
                     {/* PRICE */}
                     <p className='font-bold text-green-600'>
-
                       $
                       {(
-                        item.selectedVariant.price *
-                        item.quantity
+                        (item.selectedVariant?.price ?? 0) * item.quantity
                       ).toFixed(2)}
-
                     </p>
-
                   </div>
-
                 ))}
 
               </div>
