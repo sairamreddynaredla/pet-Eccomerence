@@ -13,7 +13,7 @@ const testimonials = [
     id: 1,
     name: "Sarah Johnson",
     city: "California, USA",
-    image: "/images/testimonials/user-1.jpg",
+    image: "https://i.pravatar.cc/150?img=1",
     review:
       "Absolutely loved the quality and packaging. My Golden Retriever instantly loved the food. The website experience also feels super premium.",
     rating: 5,
@@ -23,7 +23,7 @@ const testimonials = [
     id: 2,
     name: "David Miller",
     city: "New York, USA",
-    image: "/images/testimonials/user-2.jpg",
+    image: "https://i.pravatar.cc/150?img=2",
     review:
       "Fast delivery, authentic products, and excellent customer support. eZSTORE genuinely feels like a trusted pet brand.",
     rating: 5,
@@ -33,7 +33,7 @@ const testimonials = [
     id: 3,
     name: "Emily Roberts",
     city: "Texas, USA",
-    image: "/images/testimonials/user-3.jpg",
+    image: "https://i.pravatar.cc/150?img=3",
     review:
       "I ordered premium cat food and grooming essentials. Everything arrived perfectly packed and on time.",
     rating: 5,
@@ -43,7 +43,7 @@ const testimonials = [
     id: 4,
     name: "Michael Brown",
     city: "Florida, USA",
-    image: "/images/testimonials/user-4.jpg",
+    image: "https://i.pravatar.cc/150?img=4",
     review:
       "The product recommendations are actually useful. It feels curated for pet parents instead of generic ecommerce.",
     rating: 5,
