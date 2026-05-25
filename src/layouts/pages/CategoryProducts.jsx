@@ -172,7 +172,7 @@ const CategoryProducts = () => {
 
           {/* SIDEBAR */}
 
-          <div className="w-[260px] shrink-0">
+          <div className="w-65 shrink-0">
             <ShopSidebar
               filters={filters}
               onFilterChange={handleFilterChange}
