@@ -1,44 +1,54 @@
 import { brands } from "../data/brands";
 import { useNavigate } from "react-router-dom";
 
+// Brand images
+import royalCanin from "../assets/brands/royal-canin.jpeg";
+import pedigree from "../assets/brands/pedigree.jpeg";
+import drools from "../assets/brands/drools.jpeg";
+import farmina from "../assets/brands/farmina.jpeg";
+import whiskas from "../assets/brands/whiskas.jpeg";
+import meo from "../assets/brands/meo.jpeg";
+import sheba from "../assets/brands/sheba.jpeg";
+import purina from "../assets/brands/purina.jpeg";
+import orijen from "../assets/brands/orijen.jpeg";
+import tasteWild from "../assets/brands/taste-of-the-wild.jpeg";
+import jerhigh from "../assets/brands/jerhigh.jpeg";
+import himalaya from "../assets/brands/himalaya.jpeg";
+
+import goodies from "../assets/brands/goodies.jpeg";
+import smartheart from "../assets/brands/smartheart.jpeg";
+import acana from "../assets/brands/acana.jpeg";
+import kennelKitchen from "../assets/brands/kennel-kitchen.jpeg";
+
 const BrandsDropdown = () => {
   const navigate = useNavigate();
 
   // Featured brands
   const popularBrands = brands.filter((b) => b.featured);
 
-  // Import all brand images
+  // ALL brand images mapping
   const brandImages = {
-    ...import.meta.glob("../assets/brands/*.jpg", {
-      eager: true,
-      as: "url",
-    }),
-
-    ...import.meta.glob("../assets/brands/*.jpeg", {
-      eager: true,
-      as: "url",
-    }),
-
-    ...import.meta.glob("../assets/brands/*.png", {
-      eager: true,
-      as: "url",
-    }),
+    "royal-canin": royalCanin,
+    pedigree: pedigree,
+    drools: drools,
+    farmina: farmina,
+    whiskas: whiskas,
+    meo: meo,
+    sheba: sheba,
+    purina: purina,
+    orijen: orijen,
+    "taste-of-the-wild": tasteWild,
+    jerhigh: jerhigh,
+    himalaya: himalaya,
+    goodies: goodies,
+    smartheart: smartheart,
+    acana: acana,
+    "kennel-kitchen": kennelKitchen,
   };
 
-  // Get image dynamically
+  // Get image
   const getBrandImage = (logo) => {
-    if (!logo) return "";
-
-    const jpg = `../assets/brands/${logo}.jpg`;
-    const jpeg = `../assets/brands/${logo}.jpeg`;
-    const png = `../assets/brands/${logo}.png`;
-
-    return (
-      brandImages[jpg] ||
-      brandImages[jpeg] ||
-      brandImages[png] ||
-      ""
-    );
+    return brandImages[logo] || "";
   };
 
   // Navigate to brand page
