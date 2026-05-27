@@ -1,5 +1,5 @@
 /**
- * EZ STORE - Premium Pet Food E-Commerce
+ * EZStore
  * Tailwind CSS Color Configuration
  * Enterprise Design System Implementation
  */
